@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RemoteOps | Operations Partner</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <link rel="stylesheet" href="css/responsive.css?v=15">
+  <link rel="stylesheet" href="css/animations.css?v=15">
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    Now accepting new operations clients for Q4. <a href="book-consultation.html" style="color: var(--primary); text-decoration: underline; margin-left: 0.5rem;">Secure your spot &rarr;</a>
+  </div>
+
+  <!-- Navigation -->
+  <header>
+    <div class="nav-container">
+    <a href="index.html" class="logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--primary)" stroke-width="2"/>
+        <path d="M2 9H22" stroke="var(--primary)" stroke-width="2"/>
+        <path d="M9 21V9" stroke="var(--primary)" stroke-width="2"/>
+      </svg>
+      Remote<span>Ops</span>
+    </a>
+    
+    <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+        <a href="services.html">Services ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="services/crm-gohighlevel.html">CRM & GoHighLevel</a></li>
+          <li><a href="services/lead-generation.html">Lead Generation</a></li>
+          <li><a href="services/investor-outreach.html">Investor Outreach</a></li>
+          <li><a href="services/email-marketing.html">Email Marketing</a></li>
+          <li><a href="services/social-media.html">Social Media Management</a></li>
+          <li><a href="services/real-estate-marketing.html">Real Estate Marketing</a></li>
+          <li><a href="services/operations-support.html">Operations Support</a></li>
+          <li><a href="services/digital-support.html">Digital Support</a></li>
+        </ul>
+        </li>
+        <li class="dropdown">
+        <a href="industries.html">Industries ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="industries/fund-managers.html">Fund Managers</a></li>
+          <li><a href="industries/real-estate-investment.html">Real Estate Investment</a></li>
+          <li><a href="industries/commercial-real-estate.html">Commercial Real Estate</a></li>
+          <li><a href="industries/leasing.html">Leasing</a></li>
+          <li><a href="industries/property-management.html">Property Management</a></li>
+          <li><a href="industries/real-estate-brokers.html">Real Estate Brokers</a></li>
+        </ul>
+        </li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="book-consultation.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Consultation</a></li>
+      </ul>
+    </nav>
+    </div>
+  </header>
+
+  <main>
+
+
+    <section class="hero section-light">
+    <div class="container text-center reveal fade-in">
+      <span class="tag" style="margin-bottom: 2rem;">Overview</span>
+      <h1>Let’s Talk About What You Need Help With.</h1>
+      <p>Fill out the form below and we'll get back to you to discuss your operational needs.</p>
+    </div>
+    </section>
+    <section class="section-surface">
+    <div class="container" style="max-width: 800px;">
+      <div class="card reveal fade-in">
+        <form id="contactForm">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="fullName">Full Name *</label>
+            <input type="text" id="fullName" name="fullName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="workEmail">Work Email *</label>
+            <input type="email" id="workEmail" name="workEmail" class="form-control" required>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="businessName">Business Name</label>
+            <input type="text" id="businessName" name="businessName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="website">Website</label>
+            <input type="url" id="website" name="website" class="form-control" placeholder="https://">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="businessType">Business Type *</label>
+          <select id="businessType" name="businessType" class="form-control" required>
+            <option value="">Select an option</option>
+            <option value="Fund Management">Fund Management</option>
+            <option value="Real Estate Investment">Real Estate Investment</option>
+            <option value="Commercial Real Estate">Commercial Real Estate</option>
+            <option value="Leasing">Leasing</option>
+            <option value="Property Management">Property Management</option>
+            <option value="Real Estate Brokerage">Real Estate Brokerage</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="servicesNeeded">Services Needed</label>
+          <select id="servicesNeeded" name="servicesNeeded" class="form-control">
+            <option value="">Select an option</option>
+            <option value="CRM">CRM</option>
+            <option value="Lead Generation">Lead Generation</option>
+            <option value="Investor Outreach">Investor Outreach</option>
+            <option value="Email Marketing">Email Marketing</option>
+            <option value="Social Media">Social Media</option>
+            <option value="Real Estate Marketing">Real Estate Marketing</option>
+            <option value="Operations Support">Operations Support</option>
+            <option value="Website Support">Website Support</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="weeklySupport">Weekly Support Needed</label>
+          <select id="weeklySupport" name="weeklySupport" class="form-control">
+            <option value="">Select an option</option>
+            <option value="10 to 20 hours">10 to 20 hours</option>
+            <option value="20 to 40 hours">20 to 40 hours</option>
+            <option value="40+ hours">40+ hours</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">Message *</label>
+          <textarea id="message" name="message" class="form-control" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Request a Consultation</button>
+        <div class="form-status"></div>
+        </form>
+      </div>
+    </div>
+    </section>
+    
+    </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="color: var(--background); margin-bottom: 1.5rem;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--background)" stroke-width="2"/>
+          <path d="M2 9H22" stroke="var(--background)" stroke-width="2"/>
+          <path d="M9 21V9" stroke="var(--background)" stroke-width="2"/>
+        </svg>
+        Remote<span style="color: var(--accent)">Ops</span>
+        </div>
+        <p style="color: #94A3B8; font-size: 1rem;">A Remote Operations & Growth Support Partner for Real Estate & Investment Businesses across the US.</p>
+      </div>
+      
+      <div class="footer-col">
+        <h4>COMPANY</h4>
+        <ul class="feature-list">
+        <li><a href="about.html">About Our Approach</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="case-studies.html">Client Case Studies</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="book-consultation.html">Book a Consultation</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>CORE SERVICES</h4>
+        <ul class="feature-list">
+        <li><a href="services/crm-gohighlevel.html">CRM & GoHighLevel</a></li>
+        <li><a href="services/lead-generation.html">Lead Generation</a></li>
+        <li><a href="services/investor-outreach.html">Investor Outreach</a></li>
+        <li><a href="services/email-marketing.html">Email Marketing</a></li>
+        <li><a href="services/social-media.html">Social Media Strategy</a></li>
+        <li><a href="services/operations-support.html">Operations Support</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>INDUSTRIES SERVED</h4>
+        <ul class="feature-list">
+        <li><a href="industries/fund-managers.html">Fund Managers</a></li>
+        <li><a href="industries/real-estate-investment.html">Real Estate Investment Firms</a></li>
+        <li><a href="industries/commercial-real-estate.html">Commercial Real Estate</a></li>
+        <li><a href="industries/property-management.html">Property Management</a></li>
+        <li><a href="industries/real-estate-brokers.html">Real Estate Brokers</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div>&copy; <span id="current-year"></span> RemoteOps. All rights reserved. Operating nationwide across the US.</div>
+      <div class="footer-links">
+        <a href="mailto:hello@remoteops.example">hello@remoteops.example</a>
+        <a href="tel:+18005550199">(800) 555 0199</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js?v=2"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

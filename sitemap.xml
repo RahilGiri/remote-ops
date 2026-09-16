@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>https://yourdomain.com/</loc></url>
+    <url><loc>https://yourdomain.com/about.html</loc></url>
+    <url><loc>https://yourdomain.com/services.html</loc></url>
+    <url><loc>https://yourdomain.com/industries.html</loc></url>
+    <url><loc>https://yourdomain.com/how-it-works.html</loc></url>
+    <url><loc>https://yourdomain.com/case-studies.html</loc></url>
+    <url><loc>https://yourdomain.com/contact.html</loc></url>
+    <url><loc>https://yourdomain.com/book-consultation.html</loc></url>
+    
+    <url><loc>https://yourdomain.com/services/crm-gohighlevel.html</loc></url>
+    <url><loc>https://yourdomain.com/services/lead-generation.html</loc></url>
+    <url><loc>https://yourdomain.com/services/investor-outreach.html</loc></url>
+    <url><loc>https://yourdomain.com/services/email-marketing.html</loc></url>
+    <url><loc>https://yourdomain.com/services/social-media.html</loc></url>
+    <url><loc>https://yourdomain.com/services/real-estate-marketing.html</loc></url>
+    <url><loc>https://yourdomain.com/services/operations-support.html</loc></url>
+    <url><loc>https://yourdomain.com/services/digital-support.html</loc></url>
+    
+    <url><loc>https://yourdomain.com/industries/fund-managers.html</loc></url>
+    <url><loc>https://yourdomain.com/industries/real-estate-investment.html</loc></url>
+    <url><loc>https://yourdomain.com/industries/commercial-real-estate.html</loc></url>
+    <url><loc>https://yourdomain.com/industries/leasing.html</loc></url>
+    <url><loc>https://yourdomain.com/industries/property-management.html</loc></url>
+    <url><loc>https://yourdomain.com/industries/real-estate-brokers.html</loc></url>
+</urlset>
