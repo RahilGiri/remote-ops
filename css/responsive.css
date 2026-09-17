@@ -107,3 +107,24 @@
     text-align: center;
   }
 }
+
+/* Additional Mobile Layout Fixes */
+@media (max-width: 768px) {
+  /* Fix huge paddings on pull-up cards */
+  .card { padding: 1.5rem !important; }
+  div[style*="padding: 4rem"] { padding: 1.5rem !important; }
+  div[style*="padding: 4rem;"] { padding: 1.5rem !important; }
+  
+  /* Make sure images in pull-up cards scale down */
+  div[style*="height: 350px"] { height: 200px !important; }
+  
+  /* Disable pricing card hover scale on mobile to prevent overflow */
+  .card[style*="scale(1.05)"] { transform: none !important; margin-top: 2rem !important; margin-bottom: 2rem !important; }
+  
+  /* Fix Marquee gap for smaller screens */
+  .marquee-content { gap: 3rem; padding-left: 3rem; }
+  .marquee-logo { font-size: 1.2rem; }
+  .marquee-logo svg { width: 20px; height: 20px; }
+}
+
+@media (max-width: 768px) { .nav-container .logo img { height: 32px !important; } }

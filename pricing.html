@@ -3,38 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing | RemoteOps Virtual Assistants</title>
+  <title>Pricing | Remote Operations Virtual Assistants</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=15">
-  <link rel="stylesheet" href="css/responsive.css?v=15">
-  <link rel="stylesheet" href="css/animations.css?v=15">
+  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/responsive.css?v=27">
+  <link rel="stylesheet" href="css/animations.css?v=27">
 </head>
 <body>
 
   <!-- Top Banner -->
   <div class="top-banner">
-    Now accepting new operations clients for Q4. <a href="book-consultation.html" style="color: var(--primary); text-decoration: underline; margin-left: 0.5rem;">Secure your spot &rarr;</a>
+    Now accepting new operations clients for Q4. <a href="book-consultation.html" style="color: white; font-weight: 700; text-decoration: underline; margin-left: 0.5rem;">Secure your spot &rarr;</a>
   </div>
 
   <!-- Navigation -->
   <header>
     <div class="nav-container">
-    <a href="index.html" class="logo">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--primary)" stroke-width="2"/>
-        <path d="M2 9H22" stroke="var(--primary)" stroke-width="2"/>
-        <path d="M9 21V9" stroke="var(--primary)" stroke-width="2"/>
-      </svg>
-      Remote<span>Ops</span>
-    </a>
+    <a href="index.html" class="logo"><img src="images/logo_clean.png" alt="Remote Operations Logo" style="height: 48px; width: auto; display: block;"></a>
     
     <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
     
-    <nav>
+        <nav>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li class="dropdown">
@@ -61,8 +54,10 @@
           <li><a href="industries/real-estate-brokers.html">Real Estate Brokers</a></li>
         </ul>
         </li>
+        <li><a href="how-it-works.html">How It Works</a></li>
         <li><a href="pricing.html">Pricing</a></li>
         <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="about.html">About</a></li>
         <li><a href="book-consultation.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Consultation</a></li>
       </ul>
     </nav>
@@ -75,6 +70,17 @@
       <span class="tag" style="margin-bottom: 2rem;">Transparent Pricing</span>
       <h1>Simple, predictable pricing.</h1>
       <p>Hire elite, highly trained real estate virtual assistants without the massive overhead of in house employees.</p>
+      <div class="pricing-toggle-wrapper" style="margin-top: 3rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
+        <span id="label-monthly" style="font-weight: 700; color: white;">Monthly</span>
+        <label class="toggle-switch" style="position: relative; display: inline-block; width: 60px; height: 34px;">
+          <input type="checkbox" id="pricing-toggle" style="opacity: 0; width: 0; height: 0;">
+          <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.3); transition: .4s; border-radius: 34px;">
+             <span style="position: absolute; content: ''; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+          </span>
+        </label>
+        <span id="label-annually" style="font-weight: 600; color: rgba(255,255,255,0.6);">Annually <span style="background: var(--accent); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-left: 5px;">Save 15%</span></span>
+      </div>
+
     </div>
     </section>
 
@@ -86,11 +92,11 @@
         <div class="card reveal-item" style="border-top: 4px solid var(--border);">
         <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Part Time VA</h3>
         <p style="color: var(--secondary); margin-bottom: 1.5rem;">For lighter workflows & CRM management.</p>
-        <div style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">
+        <div id="price-part-time" style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; transition: all 0.3s ease;">
           $350<span style="font-size: 1rem; color: var(--secondary); font-weight: 500;">/mo</span>
         </div>
         <ul class="feature-list" style="margin-bottom: 2.5rem; flex-grow: 1;">
-          <li>22.5 Hours / Week (4.5 hrs/day)</li>
+          <li>20 Hours / Week (4 hrs/day)</li>
           <li>Dedicated Real Estate VA</li>
           <li>CRM & GoHighLevel Support</li>
           <li>Lead Gen & Investor Outreach</li>
@@ -105,11 +111,11 @@
         <span class="tag" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white !important; border: none; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">Most Popular</span>
         <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Full Time VA</h3>
         <p style="color: var(--secondary); margin-bottom: 1.5rem;">A dedicated partner for scaling operations.</p>
-        <div style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">
+        <div id="price-full-time" style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; transition: all 0.3s ease;">
           $600<span style="font-size: 1rem; color: var(--secondary); font-weight: 500;">/mo</span>
         </div>
         <ul class="feature-list" style="margin-bottom: 2.5rem; flex-grow: 1;">
-          <li>45 Hours / Week (9 hrs/day)</li>
+          <li>40 Hours / Week (8 hrs/day)</li>
           <li>Dedicated Real Estate VA</li>
           <li>CRM & GoHighLevel Support</li>
           <li>Lead Gen & Investor Outreach</li>
@@ -141,6 +147,45 @@
     </div>
     </section>
     
+    
+    <section class="section-surface" style="padding-bottom: 5rem;">
+    <div class="container reveal fade-in" style="max-width: 800px;">
+      <h2 class="text-center" style="margin-bottom: 3rem;">Frequently Asked Questions</h2>
+      
+      <div class="accordion">
+        <div class="accordion-item" style="border-bottom: 1px solid var(--border); padding: 1.5rem 0;">
+          <button class="accordion-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; text-align: left; font-size: 1.25rem; font-weight: 600; color: var(--primary);">
+            Do I have to sign a long term contract?
+            <span class="icon" style="font-size: 1.5rem; color: var(--accent); transition: transform 0.3s ease;">+</span>
+          </button>
+          <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+            <p style="color: var(--secondary); padding-top: 1rem; line-height: 1.7;">No! We believe in earning your business every single month. All of our standard virtual assistant plans are month to month. If we aren't saving you time, you can cancel anytime.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item" style="border-bottom: 1px solid var(--border); padding: 1.5rem 0;">
+          <button class="accordion-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; text-align: left; font-size: 1.25rem; font-weight: 600; color: var(--primary);">
+            What if my VA goes on vacation or gets sick?
+            <span class="icon" style="font-size: 1.5rem; color: var(--accent); transition: transform 0.3s ease;">+</span>
+          </button>
+          <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+            <p style="color: var(--secondary); padding-top: 1rem; line-height: 1.7;">When you hire Remote Operations, you hire our entire infrastructure. If your dedicated VA takes paid time off or is out sick, our operations managers immediately step in to ensure your daily workflows continue uninterrupted.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item" style="border-bottom: 1px solid var(--border); padding: 1.5rem 0;">
+          <button class="accordion-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; cursor: pointer; text-align: left; font-size: 1.25rem; font-weight: 600; color: var(--primary);">
+            Are your VAs trained in my specific software?
+            <span class="icon" style="font-size: 1.5rem; color: var(--accent); transition: transform 0.3s ease;">+</span>
+          </button>
+          <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+            <p style="color: var(--secondary); padding-top: 1rem; line-height: 1.7;">Yes. Our virtual assistants undergo rigorous training in standard real estate tech stacks including GoHighLevel, Follow Up Boss, Salesforce, AppFolio, Canva, and Mailchimp before they ever touch your account.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+
     <section class="section-light">
     <div class="container text-center reveal fade-in" style="max-width: 800px;">
       <h2>No hidden fees. No long-term lock in.</h2>
@@ -154,14 +199,7 @@
     <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="logo" style="color: var(--background); margin-bottom: 1.5rem;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--background)" stroke-width="2"/>
-          <path d="M2 9H22" stroke="var(--background)" stroke-width="2"/>
-          <path d="M9 21V9" stroke="var(--background)" stroke-width="2"/>
-        </svg>
-        Remote<span style="color: var(--accent)">Ops</span>
-        </div>
+        <div class="logo" style="margin-bottom: 1.5rem; background: white; padding: 0.75rem 1rem; border-radius: 8px; display: inline-block;"><img src="images/logo_clean.png" alt="Remote Operations Logo" style="height: 40px; width: auto; display: block;"></div>
         <p style="color: #94A3B8; font-size: 1rem;">A Remote Operations & Growth Support Partner for Real Estate & Investment Businesses across the US.</p>
       </div>
       
@@ -201,7 +239,7 @@
     </div>
     
     <div class="footer-bottom">
-      <div>&copy; <span id="current-year"></span> RemoteOps. All rights reserved. Operating nationwide across the US.</div>
+      <div>&copy; <span id="current-year"></span> Remote Operations. All rights reserved. Operating nationwide across the US.</div>
       <div class="footer-links">
         <a href="mailto:hello@remoteops.example">hello@remoteops.example</a>
         <a href="tel:+18005550199">(800) 555 0199</a>
@@ -216,5 +254,76 @@
   <script src="js/animations.js?v=2"></script>
   <script src="js/forms.js"></script>
   <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('pricing-toggle');
+      if(!toggle) return;
+      const labelMonthly = document.getElementById('label-monthly');
+      const labelAnnually = document.getElementById('label-annually');
+      
+      const partTimePrice = document.getElementById('price-part-time');
+      const fullTimePrice = document.getElementById('price-full-time');
+      
+      toggle.addEventListener('change', function() {
+        const isAnnual = this.checked;
+        const sliderInner = document.querySelector('.slider span');
+        const sliderBg = document.querySelector('.slider');
+        
+        if(isAnnual) {
+          sliderInner.style.transform = 'translateX(26px)';
+          sliderBg.style.backgroundColor = 'var(--accent)';
+          labelAnnually.style.fontWeight = '700';
+          labelAnnually.style.color = 'white';
+          labelMonthly.style.fontWeight = '600';
+          labelMonthly.style.color = 'rgba(255,255,255,0.6)';
+          
+          animatePrice(partTimePrice, 295);
+          animatePrice(fullTimePrice, 510);
+        } else {
+          sliderInner.style.transform = 'translateX(0)';
+          sliderBg.style.backgroundColor = 'rgba(255,255,255,0.3)';
+          labelMonthly.style.fontWeight = '700';
+          labelMonthly.style.color = 'white';
+          labelAnnually.style.fontWeight = '600';
+          labelAnnually.style.color = 'rgba(255,255,255,0.6)';
+          
+          animatePrice(partTimePrice, 350);
+          animatePrice(fullTimePrice, 600);
+        }
+      });
+      
+      
+      const accordions = document.querySelectorAll('.accordion-header');
+      accordions.forEach(acc => {
+        acc.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const icon = this.querySelector('.icon');
+          
+          if(content.style.maxHeight && content.style.maxHeight !== '0px') {
+            content.style.maxHeight = '0px';
+            icon.style.transform = 'rotate(0deg)';
+            icon.textContent = '+';
+          } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            icon.style.transform = 'rotate(45deg)';
+          }
+        });
+      });
+
+      function animatePrice(element, newPrice) {
+        if(!element) return;
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(-10px)';
+        
+        setTimeout(() => {
+          element.innerHTML = '\n          $' + newPrice + '<span style="font-size: 1rem; color: var(--secondary); font-weight: 500;">/mo</span>';
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        }, 300);
+      }
+    });
+  </script>
 </body>
+
 </html>

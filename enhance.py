@@ -1,505 +1,280 @@
 import os
+import glob
 
-def create_page(path, title, description, h1, body_content, root_prefix=""):
+# Re-usable header/footer extracted from an existing service page
+def get_shell(filepath):
+    with open(filepath, 'r') as f:
+        content = f.read()
     
-    header = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-    <meta name="description" content="{description}">
-    
-    <!-- SEO & Open Graph -->
-    <meta property="og:title" content="{title}">
-    <meta property="og:description" content="{description}">
-    <meta property="og:type" content="website">
-    <link rel="canonical" href="https://yourdomain.com/{path.replace('index.html', '')}">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="{root_prefix}css/style.css">
-    <link rel="stylesheet" href="{root_prefix}css/responsive.css">
-    <link rel="stylesheet" href="{root_prefix}css/animations.css">
-</head>
-<body>
+    parts = content.split('<main>')
+    head = parts[0]
+    tail = parts[1].split('</main>')[1]
+    return head, tail
 
-    <!-- Top Banner -->
-    <div class="top-banner">
-        Now accepting new operations clients for Q4. <a href="{root_prefix}book-consultation.html" style="color: var(--primary); text-decoration: underline; margin-left: 0.5rem;">Secure your spot &rarr;</a>
-    </div>
+try:
+    head, tail = get_shell('services/crm-gohighlevel.html')
+except Exception:
+    head, tail = "", ""
 
-    <!-- Navigation -->
-    <header>
-        <div class="nav-container">
-            <a href="{root_prefix}index.html" class="logo">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--primary)" stroke-width="2"/>
-                    <path d="M2 9H22" stroke="var(--primary)" stroke-width="2"/>
-                    <path d="M9 21V9" stroke="var(--primary)" stroke-width="2"/>
-                </svg>
-                Remote<span>Ops</span>
-            </a>
-            
-            <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
-            
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="{root_prefix}index.html">Home</a></li>
-                    <li class="dropdown">
-                        <a href="{root_prefix}services.html">Services ▾</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{root_prefix}services/crm-gohighlevel.html">CRM & GoHighLevel</a></li>
-                            <li><a href="{root_prefix}services/lead-generation.html">Lead Generation</a></li>
-                            <li><a href="{root_prefix}services/investor-outreach.html">Investor Outreach</a></li>
-                            <li><a href="{root_prefix}services/email-marketing.html">Email Marketing</a></li>
-                            <li><a href="{root_prefix}services/social-media.html">Social Media Management</a></li>
-                            <li><a href="{root_prefix}services/real-estate-marketing.html">Real Estate Marketing</a></li>
-                            <li><a href="{root_prefix}services/operations-support.html">Operations Support</a></li>
-                            <li><a href="{root_prefix}services/digital-support.html">Digital Support</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="{root_prefix}industries.html">Industries ▾</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{root_prefix}industries/fund-managers.html">Fund Managers</a></li>
-                            <li><a href="{root_prefix}industries/real-estate-investment.html">Real Estate Investment</a></li>
-                            <li><a href="{root_prefix}industries/commercial-real-estate.html">Commercial Real Estate</a></li>
-                            <li><a href="{root_prefix}industries/leasing.html">Leasing</a></li>
-                            <li><a href="{root_prefix}industries/property-management.html">Property Management</a></li>
-                            <li><a href="{root_prefix}industries/real-estate-brokers.html">Real Estate Brokers</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{root_prefix}how-it-works.html">How It Works</a></li>
-                    <li><a href="{root_prefix}case-studies.html">Case Studies</a></li>
-                    <li><a href="{root_prefix}about.html">About</a></li>
-                    <li><a href="{root_prefix}book-consultation.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Consultation</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+# Data for 14 pages
+pages_data = {
+    "services/crm-gohighlevel.html": {
+        "cat": "Operations Service", "title": "CRM & GoHighLevel", "sub": "We manage, clean, and automate your GoHighLevel and CRM workflows so you can focus on closing deals.",
+        "img1": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "End to End CRM Management",
+        "s1_text": "A messy CRM means lost revenue. Our dedicated real estate virtual assistants are highly trained in GoHighLevel, Salesforce, Hubspot, and Follow Up Boss. We ensure every lead is tracked, tagged, and followed up with systematically.",
+        "features1": ["Database Cleanup & Deduplication", "Pipeline Building & Management", "Contact Tagging & Segmentation"],
+        "features2": ["Automated Follow Up Workflows", "Form & Funnel Integration", "Weekly Analytics Reporting"],
+        "s2_title": "Stop Letting Deals Slip Through the Cracks.",
+        "s2_t1": "Real estate professionals spend up to 30% of their week just doing data entry and trying to figure out who they need to call next.",
+        "s2_t2": "By handing off your CRM management to RemoteOps, you get a pristine database, automated lead nurturing, and a clear daily dashboard of who is ready to buy or sell."
+    },
+    "services/lead-generation.html": {
+        "cat": "Growth Service", "title": "Lead Generation", "sub": "Data driven prospect research and list building to fill your pipeline with highly qualified real estate opportunities.",
+        "img1": "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Targeted Lead Research",
+        "s1_text": "Finding the right deals and investors requires hours of tedious research. We take over the heavy lifting of identifying, verifying, and organizing contact information for property owners, fund managers, and potential buyers.",
+        "features1": ["Commercial Real Estate Prospecting", "Off Market Property Owner Lookup", "LinkedIn Sales Navigator Research"],
+        "features2": ["Data Scraping & Verification", "List Scrubbing & Formatting", "Direct Import to your CRM"],
+        "s2_title": "Fuel Your Outreach with Accurate Data.",
+        "s2_t1": "There is nothing worse than wasting hours cold calling wrong numbers or emailing bounced addresses.",
+        "s2_t2": "Our VAs are experts at using premium tools to verify contact information so your sales team can spend 100% of their time talking to actual decision makers."
+    },
+    "services/investor-outreach.html": {
+        "cat": "Growth Service", "title": "Investor Outreach", "sub": "Consistent, professional outreach and follow up management to keep your capital raising calendar booked.",
+        "img1": "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Systematic Capital Raising Support",
+        "s1_text": "Raising capital requires extreme consistency. We act as an extension of your investor relations team, handling the initial touchpoints, scheduling meetings, and ensuring no potential LP is ever forgotten.",
+        "features1": ["Cold Email Campaign Management", "LinkedIn Direct Messaging", "Meeting Scheduling & Calendar Ops"],
+        "features2": ["Investor Follow up Tracking", "Pitch Deck Distribution", "Investor Update Formatting"],
+        "s2_title": "Build Relationships. We'll Handle the Logistics.",
+        "s2_t1": "You need to be on the phone and in the room pitching your fund or syndication. You shouldn't be formatting mail merges.",
+        "s2_t2": "RemoteOps ensures your outreach engine never stops running, even when you are traveling, touring properties, or closing deals."
+    },
+    "services/email-marketing.html": {
+        "cat": "Marketing Service", "title": "Email Marketing", "sub": "Design, schedule, and send professional email campaigns, newsletters, and property blasts.",
+        "img1": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Professional Campaign Management",
+        "s1_text": "Keep your buyers, sellers, and investors engaged with high quality email marketing. Our team handles the design, copy formatting, list segmentation, and deployment of your critical communications.",
+        "features1": ["Monthly Newsletter Formatting", "New Listing Email Blasts", "Investor Update Deployment"],
+        "features2": ["List Segmentation & Hygiene", "A/B Testing Subject Lines", "Open & Click Rate Reporting"],
+        "s2_title": "Stay Top of Mind Automatically.",
+        "s2_t1": "Your email list is your most valuable asset, but only if you use it consistently. We make sure your communications go out on time, every time.",
+        "s2_t2": "Whether it is a Mailchimp blast to 10,000 brokers or a highly targeted GoHighLevel drip campaign to 50 LPs, we handle the execution."
+    },
+    "services/social-media.html": {
+        "cat": "Marketing Service", "title": "Social Media Management", "sub": "Maintain a dominant brand presence on LinkedIn, Instagram, and Facebook without lifting a finger.",
+        "img1": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Consistent Multi Platform Presence",
+        "s1_text": "In modern real estate, if you aren't posting, you don't exist. We manage your content calendar, design professional graphics in Canva, and schedule posts across all your major social channels.",
+        "features1": ["Content Calendar Creation", "Canva Graphic Design", "Post Scheduling (Hootsuite/Buffer)"],
+        "features2": ["Just Listed/Just Sold Graphics", "LinkedIn Thought Leadership", "Community Engagement & Replies"],
+        "s2_title": "Build Authority While You Sleep.",
+        "s2_t1": "Creating social media content is incredibly time consuming. Our trained VAs take your raw ideas, property photos, and deal announcements and turn them into polished posts.",
+        "s2_t2": "We ensure your firm looks active, successful, and professional to anyone researching you online."
+    },
+    "services/real-estate-marketing.html": {
+        "cat": "Marketing Service", "title": "Real Estate Marketing", "sub": "Specialized marketing support for property listings, offering memorandums, and broker deliverables.",
+        "img1": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Premium Property Marketing",
+        "s1_text": "Speed to market is everything. When you win a listing or acquire a property, our team acts fast to build flyers, setup the single property website, and distribute the marketing materials.",
+        "features1": ["Offering Memorandum (OM) Formatting", "Property Flyer & Brochure Design", "Single Property Website Updates"],
+        "features2": ["LoopNet & CoStar Listing Entry", "Virtual Tour Uploads", "Marketing Package Assembly"],
+        "s2_title": "Impress Clients with Speed and Quality.",
+        "s2_t1": "Don't let administrative bottlenecks delay your listings from going live. We provide the rapid marketing support brokers and investors need.",
+        "s2_t2": "Hand us the property photos and the basic stats, and we will deliver a comprehensive, branded marketing package ready for distribution."
+    },
+    "services/operations-support.html": {
+        "cat": "Operations Service", "title": "Operations Support", "sub": "Administrative and back office support to keep your firm running smoothly and efficiently.",
+        "img1": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Reliable Back Office Execution",
+        "s1_text": "Every real estate firm has unique operational tasks that don't fit neatly into a box. From document formatting to inbox management, our VAs handle the critical day to day operations.",
+        "features1": ["Inbox & Calendar Management", "Document Formatting & Filing", "Data Entry & Spreadsheet Management"],
+        "features2": ["Expense Tracking & Receipt Logging", "Vendor Coordination", "Ad Hoc Administrative Tasks"],
+        "s2_title": "Get Your Time Back.",
+        "s2_t1": "The most successful real estate professionals delegate ruthlessly. If a task doesn't directly generate revenue, you shouldn't be doing it.",
+        "s2_t2": "Our operations support gives you leverage. We handle the paperwork and the inbox so you can handle the negotiations and the strategy."
+    },
+    "services/digital-support.html": {
+        "cat": "Operations Service", "title": "Digital Support", "sub": "Website updates, basic tech support, and software integration for modern real estate teams.",
+        "img1": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Seamless Technology Management",
+        "s1_text": "Keep your digital presence up to date without calling an expensive developer. Our team can manage your WordPress or Wix site, update team bios, and connect your software tools.",
+        "features1": ["Basic Website Updates (WordPress/Wix)", "Team Bio & Roster Management", "Zapier Automation Setup"],
+        "features2": ["Software Tool Onboarding", "Digital File Organization", "Dashboard Creation"],
+        "s2_title": "Your Tech Stack, Optimized.",
+        "s2_t1": "Real estate teams use more software than ever before. But software is only useful if it is properly maintained.",
+        "s2_t2": "We help you connect the dots between your CRM, your website, and your lead sources using tools like Zapier, ensuring data flows seamlessly."
+    },
+    
+    # Industries
+    "industries/fund-managers.html": {
+        "cat": "Industry Expertise", "title": "Fund Managers", "sub": "Specialized operational support for private equity, debt funds, and syndicators.",
+        "img1": "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Scale Your AUM Without Scaling Overhead",
+        "s1_text": "Fund managers need to focus on acquisitions and LP relations. We handle the CRM updates, the pitch deck formatting, and the routine investor communications.",
+        "features1": ["LP Database Management", "Capital Call Communication Formatting", "Pitch Deck Design (Canva/PPT)"],
+        "features2": ["Target Acquisition Research", "Investor Portal Updates", "Weekly Reporting Dashboards"],
+        "s2_title": "Institutional Grade Support.",
+        "s2_t1": "We understand the terminology and the stakes involved in managing outside capital.",
+        "s2_t2": "Our VAs provide the meticulous attention to detail required to keep your investor data secure, organized, and perfectly formatted."
+    },
+    "industries/real-estate-investment.html": {
+        "cat": "Industry Expertise", "title": "Real Estate Investment", "sub": "Support for flippers, wholesalers, and buy and hold investment firms.",
+        "img1": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Keep Your Deal Funnel Full",
+        "s1_text": "Finding off market deals is a numbers game. We provide the research, data scraping, and initial outreach required to keep your acquisitions team busy.",
+        "features1": ["Skip Tracing & Data Entry", "Motivated Seller List Building", "Cold Email Outreach Campaigns"],
+        "features2": ["CRM Pipeline Management", "Comps Research Preparation", "Contract Formatting"],
+        "s2_title": "Outsource the Grind.",
+        "s2_t1": "Pulling lists, skip tracing, and sending direct mail is exhausting and keeps you away from underwriting deals.",
+        "s2_t2": "Let our trained virtual assistants handle the top of the funnel so you can focus on negotiating the contracts."
+    },
+    "industries/commercial-real-estate.html": {
+        "cat": "Industry Expertise", "title": "Commercial Real Estate", "sub": "Marketing and operational leverage for CRE brokers and agencies.",
+        "img1": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Win More Listings. Close Faster.",
+        "s1_text": "Commercial brokers need speed and professionalism. We build your Offering Memorandums (OMs), update CoStar/LoopNet, and research potential buyers.",
+        "features1": ["OM and Flyer Design", "CoStar & LoopNet Updates", "Buyer & Tenant Prospecting"],
+        "features2": ["CRM Maintenance", "Email Blast Execution", "Market Report Formatting"],
+        "s2_title": "Your Dedicated Back Office.",
+        "s2_t1": "Top producing CRE brokers don't build their own brochures. They have a team behind them.",
+        "s2_t2": "RemoteOps provides you with a dedicated virtual marketing and operations assistant for a fraction of the cost of a full time in house hire."
+    },
+    "industries/leasing.html": {
+        "cat": "Industry Expertise", "title": "Leasing", "sub": "Support for commercial and residential leasing teams.",
+        "img1": "https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Keep Occupancy High",
+        "s1_text": "Managing a high volume of leasing inquiries requires extreme organization. We monitor your inbox, pre qualify leads, and manage your showing calendar.",
+        "features1": ["Inbound Inquiry Response", "Tenant Pre Qualification", "Calendar & Showing Scheduling"],
+        "features2": ["Listing Syndication Updates", "Lease Agreement Formatting", "Follow Up Drip Campaigns"],
+        "s2_title": "Never Miss a Lead.",
+        "s2_t1": "When a prospective tenant reaches out, they expect an immediate response. If you don't reply, the next building will.",
+        "s2_t2": "We ensure every single Zillow, Apartments.com, or direct inquiry is entered into your CRM and immediately followed up with."
+    },
+    "industries/property-management.html": {
+        "cat": "Industry Expertise", "title": "Property Management", "sub": "Administrative leverage for property management companies.",
+        "img1": "https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Streamline Your Property Operations",
+        "s1_text": "Property management is death by a thousand cuts. We take over the repetitive administrative tasks like vendor dispatching, notice formatting, and data entry.",
+        "features1": ["Work Order Data Entry", "Vendor Coordination", "Tenant Notice Formatting"],
+        "features2": ["AppFolio / Buildium Updates", "Lease Renewal Tracking", "Utility Transfer Support"],
+        "s2_title": "Reduce Property Manager Burnout.",
+        "s2_t1": "Property managers are overworked. By offloading the digital administrative tasks to a RemoteOps VA, they can focus on tenant relations and physical property issues.",
+        "s2_t2": "We integrate directly into your existing property management software to provide seamless back office support."
+    },
+    "industries/real-estate-brokers.html": {
+        "cat": "Industry Expertise", "title": "Real Estate Brokers", "sub": "Growth and transaction support for residential real estate teams.",
+        "img1": "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1600&auto=format&fit=crop",
+        "img2": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop",
+        "s1_title": "Scale Your Real Estate Team",
+        "s1_text": "Top producing agents need leverage. We provide the marketing, CRM, and administrative support necessary to help you double your transaction volume.",
+        "features1": ["GoHighLevel & CRM Management", "Social Media Content Creation", "Newsletter Deployment"],
+        "features2": ["Listing Presentation Formatting", "Database Nurturing", "Client Onboarding Prep"],
+        "s2_title": "Focus on the Client.",
+        "s2_t1": "Your clients pay for your local market expertise and negotiation skills, not your ability to format a newsletter.",
+        "s2_t2": "A dedicated RemoteOps Virtual Assistant acts as your personal marketing and operations director, executing your strategy flawlessly."
+    }
+}
 
+template = """
     <main>
+        <section class="hero section-light">
+            <div class="container text-center reveal fade-in">
+                <span class="tag" style="margin-bottom: 2rem;">{cat}</span>
+                <h1>{title}</h1>
+                <p>{sub}</p>
+            </div>
+        </section>
+
+        <section class="section-surface" style="padding-top: 0;">
+            <div class="container pull-up reveal fade-in">
+                <div class="card" style="padding: 0; overflow: hidden; border: none; box-shadow: 0 30px 60px rgba(0,0,0,0.08);">
+                    <div style="height: 350px; background: url('{img1}') center/cover;"></div>
+                    <div style="padding: 4rem;">
+                        <h2 style="margin-bottom: 1.5rem; font-size: 2.25rem;">{s1_title}</h2>
+                        <p style="font-size: 1.15rem; color: var(--secondary); line-height: 1.8; margin-bottom: 3rem;">{s1_text}</p>
+                        
+                        <div class="grid-2">
+                            <ul class="feature-list">
+                                {f1}
+                            </ul>
+                            <ul class="feature-list">
+                                {f2}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-light">
+            <div class="container">
+                <div class="grid-2" style="align-items: center; gap: 5rem;">
+                    <div class="reveal slide-right">
+                        <h2 style="font-size: 2.25rem; margin-bottom: 1.5rem;">{s2_title}</h2>
+                        <p style="color: var(--secondary); font-size: 1.15rem; line-height: 1.7; margin-bottom: 1.5rem;">{s2_t1}</p>
+                        <p style="color: var(--secondary); font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem;">{s2_t2}</p>
+                        <a href="../book-consultation.html" class="btn btn-primary">Book a Free Consultation</a>
+                    </div>
+                    <div class="reveal slide-left">
+                        <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                            <img src="{img2}" style="width: 100%; display: block;" alt="Professional Service">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-surface">
+            <div class="container text-center reveal fade-in">
+                <h2 style="margin-bottom: 2rem; font-size: 2.5rem;">Ready to optimize your operations?</h2>
+                <p style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">Join the top performing real estate teams who trust RemoteOps to handle their CRM, marketing, and back office workflows.</p>
+                <a href="../pricing.html" class="btn btn-outline" style="margin-right: 1rem;">View Pricing</a>
+                <a href="../book-consultation.html" class="btn btn-primary">Get Started Today</a>
+            </div>
+        </section>
+    </main>
 """
 
-    footer = f"""
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="logo" style="color: var(--background); margin-bottom: 1.5rem;">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--background)" stroke-width="2"/>
-                            <path d="M2 9H22" stroke="var(--background)" stroke-width="2"/>
-                            <path d="M9 21V9" stroke="var(--background)" stroke-width="2"/>
-                        </svg>
-                        Remote<span style="color: var(--accent)">Ops</span>
-                    </div>
-                    <p style="color: #94A3B8; font-size: 1rem;">A Remote Operations & Growth Support Partner for Real Estate & Investment Businesses across the US.</p>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>COMPANY</h4>
-                    <ul>
-                        <li><a href="{root_prefix}about.html">About Our Approach</a></li>
-                        <li><a href="{root_prefix}how-it-works.html">How It Works</a></li>
-                        <li><a href="{root_prefix}case-studies.html">Client Case Studies</a></li>
-                        <li><a href="{root_prefix}contact.html">Contact Us</a></li>
-                        <li><a href="{root_prefix}book-consultation.html">Book a Consultation</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>CORE SERVICES</h4>
-                    <ul>
-                        <li><a href="{root_prefix}services/crm-gohighlevel.html">CRM & GoHighLevel</a></li>
-                        <li><a href="{root_prefix}services/lead-generation.html">Lead Generation</a></li>
-                        <li><a href="{root_prefix}services/investor-outreach.html">Investor Outreach</a></li>
-                        <li><a href="{root_prefix}services/email-marketing.html">Email Marketing</a></li>
-                        <li><a href="{root_prefix}services/social-media.html">Social Media Strategy</a></li>
-                        <li><a href="{root_prefix}services/operations-support.html">Operations Support</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>INDUSTRIES SERVED</h4>
-                    <ul>
-                        <li><a href="{root_prefix}industries/fund-managers.html">Fund Managers</a></li>
-                        <li><a href="{root_prefix}industries/real-estate-investment.html">Real Estate Investment Firms</a></li>
-                        <li><a href="{root_prefix}industries/commercial-real-estate.html">Commercial Real Estate</a></li>
-                        <li><a href="{root_prefix}industries/property-management.html">Property Management</a></li>
-                        <li><a href="{root_prefix}industries/real-estate-brokers.html">Real Estate Brokers</a></li>
-                    </ul>
-                </div>
-            </div>
+if head and tail:
+    for filepath, data in pages_data.items():
+        if not os.path.exists(filepath): continue
+        
+        f1_html = "".join([f"<li>{x}</li>" for x in data["features1"]])
+        f2_html = "".join([f"<li>{x}</li>" for x in data["features2"]])
+        
+        main_html = template.format(
+            cat=data["cat"],
+            title=data["title"],
+            sub=data["sub"],
+            img1=data["img1"],
+            img2=data["img2"],
+            s1_title=data["s1_title"],
+            s1_text=data["s1_text"],
+            f1=f1_html,
+            f2=f2_html,
+            s2_title=data["s2_title"],
+            s2_t1=data["s2_t1"],
+            s2_t2=data["s2_t2"]
+        )
+        
+        with open(filepath, 'w') as f:
+            f.write(head + main_html + tail)
             
-            <div class="footer-bottom">
-                <div>&copy; <span id="current-year"></span> RemoteOps. All rights reserved. Operating nationwide across the US.</div>
-                <div class="footer-links">
-                    <a href="mailto:hello@remoteops.example">hello@remoteops.example</a>
-                    <a href="tel:+18005550199">(800) 555-0199</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="{root_prefix}js/navigation.js"></script>
-    <script src="{root_prefix}js/animations.js"></script>
-    <script src="{root_prefix}js/forms.js"></script>
-    <script src="{root_prefix}js/main.js"></script>
-</body>
-</html>"""
-
-    full_html = header + body_content + footer
-    
-    if os.path.dirname(path):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
-        f.write(full_html)
-    print(f"Generated enhanced {path}")
-
-pages = {
-    "index.html": {
-        "title": "RemoteOps | Remote Operations Partner for Real Estate",
-        "description": "Remote operations, marketing, CRM, research, outreach, and administrative support for real estate and investment businesses.",
-        "root_prefix": "",
-        "content": """
-        <!-- HERO -->
-        <section class="hero section-light">
-            <div class="container grid-2">
-                <div class="hero-content reveal slide-right">
-                    <span class="tag">B2B Operations Partner</span>
-                    <h1>You Focus on the Deals. We Handle the Work Behind Them.</h1>
-                    <p>Stop drowning in administrative tasks. We provide premium remote operations, CRM management, research, and marketing support exclusively for US-based real estate and investment businesses.</p>
-                    <div class="hero-buttons">
-                        <a href="book-consultation.html" class="btn btn-primary">Book a Free Consultation</a>
-                        <a href="services.html" class="btn btn-outline">Explore Our Services</a>
-                    </div>
-                    <ul class="feature-list mt-2">
-                        <li>Dedicated US-focused support</li>
-                        <li>Seamless CRM & GoHighLevel integration</li>
-                        <li>Data-driven investor outreach</li>
-                    </ul>
-                </div>
-                <div class="hero-visual reveal slide-left">
-                    <div class="image-wrapper">
-                        <!-- High quality professional dashboard / analytics image -->
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop" alt="Real Estate CRM Dashboard" class="img-fluid" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- LOGO STRIP -->
-        <div class="logo-strip reveal fade-in">
-            <div class="container">
-                <p>Trusted by operations teams at top real estate firms</p>
-                <div class="logo-grid">
-                    <h3 style="margin:0; font-weight:800;">APEX CAPITAL</h3>
-                    <h3 style="margin:0; font-weight:800;">LUMINA REALTY</h3>
-                    <h3 style="margin:0; font-weight:800;">MERIDIAN LEASING</h3>
-                    <h3 style="margin:0; font-weight:800;">NEXUS PROPERTIES</h3>
-                    <h3 style="margin:0; font-weight:800;">VANGUARD FUND</h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- PROBLEM -->
-        <section class="section-surface-alt">
-            <div class="container grid-2" style="align-items: center;">
-                <div class="reveal slide-right">
-                    <div class="image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1000&auto=format&fit=crop" alt="Corporate Office" class="img-fluid" />
-                    </div>
-                </div>
-                <div class="reveal slide-left" style="padding-left: 2rem;">
-                    <span class="tag">The Bottleneck</span>
-                    <h2>Your Time Should Be Spent on Deals &mdash; Not Repetitive Tasks.</h2>
-                    <p>Real estate and investment businesses require massive amounts of supporting work. From updating CRM pipelines to building lead lists, formatting email campaigns, and compiling reports — these tasks eat up hours of your high-value time every single week.</p>
-                    <p>We take the operational burden off your plate so you can focus on underwriting, negotiating, and closing.</p>
-                    <a href="services.html" class="btn btn-primary mt-1">See What We Can Handle &rarr;</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- SERVICES -->
-        <section class="section-light">
-            <div class="container">
-                <div class="section-header reveal fade-in">
-                    <span class="tag">Our Capabilities</span>
-                    <h2>Operational Support for the Work Behind the Deal.</h2>
-                    <p style="margin-top: 1rem;">We act as an extension of your team, handling the specialized workflows that keep your pipeline moving and your brand visible.</p>
-                </div>
-                <div class="grid-4 reveal-group">
-                    <div class="card reveal-item">
-                        <div class="card-icon">📊</div>
-                        <h3 class="card-title">CRM & GoHighLevel</h3>
-                        <div class="card-content">
-                            <p style="font-size: 0.95rem;">Pipeline management, automation, lead entry, and thorough CRM cleanup so no lead slips through.</p>
-                        </div>
-                        <a href="services/crm-gohighlevel.html" class="card-link">Explore Service &rarr;</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">🔍</div>
-                        <h3 class="card-title">Lead Generation</h3>
-                        <div class="card-content">
-                            <p style="font-size: 0.95rem;">Targeted LinkedIn Sales Navigator research, list building, and data verification for outbound campaigns.</p>
-                        </div>
-                        <a href="services/lead-generation.html" class="card-link">Explore Service &rarr;</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">🤝</div>
-                        <h3 class="card-title">Investor Outreach</h3>
-                        <div class="card-content">
-                            <p style="font-size: 0.95rem;">Consistent, professional outreach and follow-up management to keep your calendar booked.</p>
-                        </div>
-                        <a href="services/investor-outreach.html" class="card-link">Explore Service &rarr;</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">✉️</div>
-                        <h3 class="card-title">Email Marketing</h3>
-                        <div class="card-content">
-                            <p style="font-size: 0.95rem;">Beautiful newsletters, automated drip campaigns, and lead nurturing sequences.</p>
-                        </div>
-                        <a href="services/email-marketing.html" class="card-link">Explore Service &rarr;</a>
-                    </div>
-                </div>
-                <div class="text-center mt-4 reveal fade-in">
-                    <a href="services.html" class="btn btn-outline">View All 8 Services</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- NOT JUST A VA -->
-        <section class="section-surface">
-            <div class="container grid-2" style="align-items: center;">
-                <div class="reveal slide-right">
-                    <span class="tag">The Difference</span>
-                    <h2>More Than Virtual Assistance. We Are an Operations Partner.</h2>
-                    <p>Most VA agencies simply complete isolated tasks without understanding the bigger picture of a real estate transaction. We don't just check boxes.</p>
-                    <ul class="feature-list">
-                        <li><strong>We learn your workflow:</strong> We adapt to your specific processes and preferences.</li>
-                        <li><strong>We understand your systems:</strong> Fluent in GoHighLevel, Sales Navigator, and real estate CRMs.</li>
-                        <li><strong>We provide proactive reporting:</strong> You never have to guess what was accomplished this week.</li>
-                    </ul>
-                </div>
-                <div class="reveal slide-left">
-                    <div class="image-wrapper">
-                        <!-- High quality architecture/real estate investment image -->
-                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop" alt="Commercial Real Estate" class="img-fluid" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TESTIMONIAL -->
-        <section class="section-light">
-            <div class="container reveal fade-in">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Before RemoteOps, I was spending 15 hours a week just cleaning up our CRM and formatting email blasts for our syndication deals. They completely took over the backend operations, and our outbound volume has tripled while my stress has vanished."</p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=100&auto=format&fit=crop" alt="Client" class="author-avatar" />
-                        <div class="author-info">
-                            <h4>Michael T.</h4>
-                            <p>Managing Partner, Commercial Real Estate Firm</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- HOW IT WORKS -->
-        <section class="section-surface-alt">
-            <div class="container text-center reveal fade-in">
-                <div class="section-header">
-                    <span class="tag">Process</span>
-                    <h2>How It Works</h2>
-                    <p>A streamlined onboarding process designed for busy professionals.</p>
-                </div>
-                <div class="grid-4 reveal-group">
-                    <div class="card reveal-item" style="border-top: 4px solid var(--accent);">
-                        <div style="font-size: 2.5rem; color: var(--accent); font-weight: 800; line-height: 1;">01</div>
-                        <h3 class="card-title mt-1">Tell Us What You Need</h3>
-                        <p style="font-size: 0.95rem;">Book a quick call to discuss the exact tasks weighing down your week.</p>
-                    </div>
-                    <div class="card reveal-item" style="border-top: 4px solid var(--accent);">
-                        <div style="font-size: 2.5rem; color: var(--accent); font-weight: 800; line-height: 1;">02</div>
-                        <h3 class="card-title mt-1">Identify & Delegate</h3>
-                        <p style="font-size: 0.95rem;">We'll help you identify the highest-leverage tasks to hand off first.</p>
-                    </div>
-                    <div class="card reveal-item" style="border-top: 4px solid var(--accent);">
-                        <div style="font-size: 2.5rem; color: var(--accent); font-weight: 800; line-height: 1;">03</div>
-                        <h3 class="card-title mt-1">Build Your Workflow</h3>
-                        <p style="font-size: 0.95rem;">We document the SOPs and integrate directly into your existing tools.</p>
-                    </div>
-                    <div class="card reveal-item" style="border-top: 4px solid var(--accent);">
-                        <div style="font-size: 2.5rem; color: var(--accent); font-weight: 800; line-height: 1;">04</div>
-                        <h3 class="card-title mt-1">Execute & Report</h3>
-                        <p style="font-size: 0.95rem;">We execute consistently and send you clean, weekly progress reports.</p>
-                    </div>
-                </div>
-                <a href="how-it-works.html" class="btn btn-outline mt-4">Read Detailed Process &rarr;</a>
-            </div>
-        </section>
-
-        <!-- FINAL CTA -->
-        <section class="section-dark text-center" style="position: relative; overflow: hidden;">
-            <div class="container reveal fade-in" style="position: relative; z-index: 2;">
-                <h2 style="font-size: 3.5rem;">What Could You Delegate This Week?</h2>
-                <p class="mb-3" style="font-size: 1.25rem; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--surface);">Tell us what is taking up your time. We’ll discuss where remote support can instantly fit into your business and give you your hours back.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <a href="book-consultation.html" class="btn btn-accent" style="padding: 1.25rem 2.5rem; font-size: 1.125rem;">Book a Free Consultation</a>
-                </div>
-            </div>
-        </section>
-        """
-    }
-}
-
-for path, page_data in pages.items():
-    create_page(
-        path=path,
-        title=page_data['title'],
-        description=page_data['description'],
-        h1="",
-        body_content=page_data['content'],
-        root_prefix=page_data['root_prefix']
-    )
-
-pages_extra = {
-    "services.html": {
-        "title": "Services | RemoteOps",
-        "description": "Premium Remote Support for the Work That Keeps Your Business Moving.",
-        "root_prefix": "",
-        "content": """
-        <section class="hero section-light" style="padding-bottom: 4rem; grid-template-columns: 1fr;">
-            <div class="container text-center reveal fade-in">
-                <span class="tag">Our Expertise</span>
-                <h1 style="max-width: 900px; margin: 0 auto 1.5rem;">Remote Support for the Work That Keeps Your Business Moving.</h1>
-                <p style="max-width: 800px; margin: 0 auto;">We don't do everything. We specialize in the exact operational, marketing, and CRM workflows that real estate and investment firms need to scale.</p>
-            </div>
-        </section>
-
-        <section class="section-surface">
-            <div class="container">
-                <div class="grid-3 reveal-group">
-                    <div class="card reveal-item">
-                        <div class="card-icon">📊</div>
-                        <h3 class="card-title">CRM & GoHighLevel</h3>
-                        <div class="card-content">
-                            <p>Keep your pipeline organized and automated. We manage your database so you can manage the relationships.</p>
-                            <ul class="feature-list" style="font-size: 0.875rem;">
-                                <li>Pipeline management</li>
-                                <li>Workflow automation</li>
-                                <li>Data cleanup</li>
-                            </ul>
-                        </div>
-                        <a href="services/crm-gohighlevel.html" class="btn btn-outline" style="width:100%; margin-top: 1.5rem;">View Details</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">🔍</div>
-                        <h3 class="card-title">Lead Generation</h3>
-                        <div class="card-content">
-                            <p>Find the right prospects and build better lists using advanced tools and manual verification.</p>
-                            <ul class="feature-list" style="font-size: 0.875rem;">
-                                <li>LinkedIn Sales Navigator</li>
-                                <li>Prospect research</li>
-                                <li>Contact verification</li>
-                            </ul>
-                        </div>
-                        <a href="services/lead-generation.html" class="btn btn-outline" style="width:100%; margin-top: 1.5rem;">View Details</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">🤝</div>
-                        <h3 class="card-title">Investor Outreach</h3>
-                        <div class="card-content">
-                            <p>Consistent outreach without the manual work. We execute your outbound strategy flawlessly.</p>
-                            <ul class="feature-list" style="font-size: 0.875rem;">
-                                <li>Email sequencing</li>
-                                <li>Follow-up tracking</li>
-                                <li>Meeting coordination</li>
-                            </ul>
-                        </div>
-                        <a href="services/investor-outreach.html" class="btn btn-outline" style="width:100%; margin-top: 1.5rem;">View Details</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">✉️</div>
-                        <h3 class="card-title">Email Marketing</h3>
-                        <div class="card-content">
-                            <p>Stay consistently in front of your network with professional, well-formatted email campaigns.</p>
-                            <ul class="feature-list" style="font-size: 0.875rem;">
-                                <li>Investor newsletters</li>
-                                <li>Deal blasts</li>
-                                <li>List segmentation</li>
-                            </ul>
-                        </div>
-                        <a href="services/email-marketing.html" class="btn btn-outline" style="width:100%; margin-top: 1.5rem;">View Details</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">📱</div>
-                        <h3 class="card-title">Social Media</h3>
-                        <div class="card-content">
-                            <p>Maintain an active, authoritative presence on LinkedIn and other platforms without spending hours drafting posts.</p>
-                            <ul class="feature-list" style="font-size: 0.875rem;">
-                                <li>Content calendars</li>
-                                <li>Canva graphics</li>
-                                <li>Post scheduling</li>
-                            </ul>
-                        </div>
-                        <a href="services/social-media.html" class="btn btn-outline" style="width:100%; margin-top: 1.5rem;">View Details</a>
-                    </div>
-                    <div class="card reveal-item">
-                        <div class="card-icon">🏢</div>
-                        <h3 class="card-title">Real Estate Marketing</h3>
-                        <div class="card-content">
-                            <p>Professional marketing support for individual properties, syndication deals, and fund launches.</p>
-                            <ul class="feature-list" style="font-size: 0.875rem;">
-                                <li>Digital flyers (OMs)</li>
-                                <li>Landing pages</li>
-                                <li>Brand consistency</li>
-                            </ul>
-                        </div>
-                        <a href="services/real-estate-marketing.html" class="btn btn-outline" style="width:100%; margin-top: 1.5rem;">View Details</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-light">
-            <div class="container grid-2" style="align-items: center;">
-                <div class="reveal slide-right">
-                    <div class="image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop" alt="Operations Strategy" class="img-fluid" />
-                    </div>
-                </div>
-                <div class="reveal slide-left">
-                    <h2>Not sure exactly what you need?</h2>
-                    <p>Many of our clients come to us knowing they are overwhelmed, but aren't sure exactly which tasks to delegate first. That's perfectly normal.</p>
-                    <p>During our consultation, we will audit your current workflow and recommend a customized support plan that provides the highest immediate ROI for your time.</p>
-                    <a href="book-consultation.html" class="btn btn-primary mt-1">Schedule a Workflow Audit</a>
-                </div>
-            </div>
-        </section>
-        """
-    }
-}
-
-for path, page_data in pages_extra.items():
-    create_page(
-        path=path,
-        title=page_data['title'],
-        description=page_data['description'],
-        h1="",
-        body_content=page_data['content'],
-        root_prefix=page_data['root_prefix']
-    )
+    print("All 14 service and industry pages enhanced with massive detail and custom designs!")
+else:
+    print("Could not find shell")

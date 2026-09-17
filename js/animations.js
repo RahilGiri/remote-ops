@@ -22,55 +22,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Initial check
   revealOnScroll();
-
-  // Add scroll listener
   window.addEventListener('scroll', revealOnScroll, { passive: true });
 
   // ---------------------------------------------------
-  // 3D Tilt Effect for Cards
+  // Premium 3D Mouse Tracking Tilt Effect for Cards
   // ---------------------------------------------------
   const cards = document.querySelectorAll('.card');
   
   cards.forEach(card => {
+    // Add glare element if it doesn't exist
+    let glare = card.querySelector('.glare');
+    if (!glare) {
+      glare = document.createElement('div');
+      glare.className = 'glare';
+      glare.style.position = 'absolute';
+      glare.style.top = '0';
+      glare.style.left = '0';
+      glare.style.width = '100%';
+      glare.style.height = '100%';
+      glare.style.pointerEvents = 'none';
+      glare.style.opacity = '0';
+      glare.style.zIndex = '10';
+      glare.style.borderRadius = 'inherit';
+      card.appendChild(glare);
+    }
+
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left; // x position within the element
-      const y = e.clientY - rect.top;  // y position within the element
+      const x = e.clientX - rect.left; 
+      const y = e.clientY - rect.top;  
       
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       
-      const rotateX = ((y - centerY) / centerY) * -5; // max rotation degrees
-      const rotateY = ((x - centerX) / centerX) * 5;
+      // Calculate rotation amount (max 6 degrees for subtle premium feel)
+      const rotateX = ((y - centerY) / centerY) * -6; 
+      const rotateY = ((x - centerX) / centerX) * 6;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
       
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+      card.style.transform = `perspective(1000px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       card.style.transition = 'none'; // remove transition for smooth tracking
-      
-      // Add a subtle glare effect
-      let glare = card.querySelector('.glare');
-      if (!glare) {
-        glare = document.createElement('div');
-        glare.className = 'glare';
-        card.appendChild(glare);
-      }
       
       const px = (x / rect.width) * 100;
       const py = (y / rect.height) * 100;
-      glare.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 40%)`;
+      glare.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%)`;
       glare.style.opacity = '1';
     });
     
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+      card.style.transform = 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg)';
       card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
-      
-      const glare = card.querySelector('.glare');
-      if (glare) {
-        glare.style.opacity = '0';
-        glare.style.transition = 'opacity 0.5s ease';
-      }
+      glare.style.opacity = '0';
+      glare.style.transition = 'opacity 0.5s ease';
     });
     
     card.addEventListener('mouseenter', () => {

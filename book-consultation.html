@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RemoteOps | Operations Partner</title>
+  <title>Remote Operations | Operations Partner</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,32 +11,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css?v=15">
-  <link rel="stylesheet" href="css/responsive.css?v=15">
-  <link rel="stylesheet" href="css/animations.css?v=15">
+  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/responsive.css?v=27">
+  <link rel="stylesheet" href="css/animations.css?v=27">
 </head>
 <body>
 
   <!-- Top Banner -->
   <div class="top-banner">
-    Now accepting new operations clients for Q4. <a href="book-consultation.html" style="color: var(--primary); text-decoration: underline; margin-left: 0.5rem;">Secure your spot &rarr;</a>
+    Now accepting new operations clients for Q4. <a href="book-consultation.html" style="color: white; font-weight: 700; text-decoration: underline; margin-left: 0.5rem;">Secure your spot &rarr;</a>
   </div>
 
   <!-- Navigation -->
   <header>
     <div class="nav-container">
-    <a href="index.html" class="logo">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--primary)" stroke-width="2"/>
-        <path d="M2 9H22" stroke="var(--primary)" stroke-width="2"/>
-        <path d="M9 21V9" stroke="var(--primary)" stroke-width="2"/>
-      </svg>
-      Remote<span>Ops</span>
-    </a>
+    <a href="index.html" class="logo"><img src="images/logo_clean.png" alt="Remote Operations Logo" style="height: 48px; width: auto; display: block;"></a>
     
     <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
     
-    <nav>
+        <nav>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li class="dropdown">
@@ -135,16 +128,45 @@
       </div>
       
       <div class="card reveal slide-left">
-        <h3 class="mb-1 text-center">Schedule a Time</h3>
-        <div style="border: 1px dashed var(--border); background: var(--surface); border-radius: 8px; padding: 3rem 1rem; text-align: center; color: var(--muted);">
-        <p style="margin-bottom: 1rem;">[ Placeholder for Consultation Scheduling Tool ]</p>
-        <p style="font-size: 0.875rem;">(Calendly or similar component will be embedded here)</p>
-        </div>
         
-        <p class="text-center mt-2" style="font-size: 0.875rem;">Or prefer to send a message?</p>
-        <div class="text-center mt-1">
-        <a href="contact.html" class="btn btn-outline" style="width: 100%;">Use Contact Form</a>
-        </div>
+        <h3 class="mb-1 text-center">Request a Consultation</h3>
+        <p class="text-center" style="color: var(--secondary); margin-bottom: 2rem; font-size: 0.95rem;">Fill out the form below and our team will reach out to schedule your introductory call.</p>
+        
+        <form id="consultationForm" action="#" method="POST" onsubmit="event.preventDefault(); alert('Form successfully submitted! We will contact you shortly.');">
+          <div class="form-group">
+            <label class="form-label" for="fullName">Full Name *</label>
+            <input type="text" id="fullName" class="form-control" required placeholder="John Doe">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="email">Work Email *</label>
+            <input type="email" id="email" class="form-control" required placeholder="john@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone Number</label>
+            <input type="tel" id="phone" class="form-control" placeholder="(555) 000-0000">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="industry">Industry</label>
+            <select id="industry" class="form-control">
+              <option value="" disabled selected>Select your industry...</option>
+              <option value="broker">Real Estate Broker</option>
+              <option value="fund">Fund Manager / Syndicator</option>
+              <option value="property">Property Management</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group" style="margin-bottom: 2rem;">
+            <label class="form-label" for="message">What processes are you looking to outsource?</label>
+            <textarea id="message" class="form-control" rows="4" placeholder="e.g. CRM management, lead generation, formatting OMs..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Request</button>
+        </form>
+
       </div>
     </div>
     </section>
@@ -156,14 +178,7 @@
     <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="logo" style="color: var(--background); margin-bottom: 1.5rem;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="3" width="20" height="18" rx="2" stroke="var(--background)" stroke-width="2"/>
-          <path d="M2 9H22" stroke="var(--background)" stroke-width="2"/>
-          <path d="M9 21V9" stroke="var(--background)" stroke-width="2"/>
-        </svg>
-        Remote<span style="color: var(--accent)">Ops</span>
-        </div>
+        <div class="logo" style="margin-bottom: 1.5rem; background: white; padding: 0.75rem 1rem; border-radius: 8px; display: inline-block;"><img src="images/logo_clean.png" alt="Remote Operations Logo" style="height: 40px; width: auto; display: block;"></div>
         <p style="color: #94A3B8; font-size: 1rem;">A Remote Operations & Growth Support Partner for Real Estate & Investment Businesses across the US.</p>
       </div>
       
@@ -203,7 +218,7 @@
     </div>
     
     <div class="footer-bottom">
-      <div>&copy; <span id="current-year"></span> RemoteOps. All rights reserved. Operating nationwide across the US.</div>
+      <div>&copy; <span id="current-year"></span> Remote Operations. All rights reserved. Operating nationwide across the US.</div>
       <div class="footer-links">
         <a href="mailto:hello@remoteops.example">hello@remoteops.example</a>
         <a href="tel:+18005550199">(800) 555 0199</a>
